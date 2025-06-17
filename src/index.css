@@ -30,8 +30,169 @@
     --color-Rose-500: hsl(12, 20%, 44%);
     --color-Rose-900: hsl(14, 65%, 9%);
 
-    --breakpoint-sm: 375px;
+    /*--breakpoint-sm: 375px;*/
     --breakpoint-2xl: 1440px;
-
+    --text-sm: 12px;
     --text-base: 16px;
+    --text-lg: 24px;
 }
+@layer base {
+    body {
+        @apply bg-Rose-100 font-Red-Hat-Regular text-base;
+    }
+
+    main {
+        @apply flex flex-col sm:flex-row sm:justify-center
+        sm:m-12 h-auto gap-4 sm:gap-6;
+    }
+}
+
+@layer components {
+
+    .loading {
+        @apply flex flex-col w-full sm:w-4/6 font-Red-Hat-Regular ;
+    }
+
+    .loading-container {
+        @apply flex flex-col gap-4 justify-center items-center h-screen;
+    }
+
+    .loading-spinner {
+        @apply w-20 h-20 border-4 border-Red
+        border-t-transparent rounded-full animate-spin;
+    }
+
+    .loading-text {
+        @apply text-lg text-gray-600 font-Red-Hat-SemiBold;
+    }
+
+    .item-loader-container {
+        @apply flex flex-col w-full sm:w-4/6 font-Red-Hat-Regular ;
+    }
+
+    .item-loader-header {
+        @apply text-2xl sm:text-3xl font-Red-Hat-Bold mb-4 sm:mb-6;
+    }
+
+    .item-container {
+        @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4;
+    }
+
+    .item-card {
+        @apply flex flex-col items-center justify-end relative;
+    }
+
+    .item-card-image {
+        @apply w-full h-auto rounded-[5px] shadow-lg;
+    }
+
+    .item-card-category {
+        @apply text-sm mt-8 text-gray-600 pl-4 sm:pl-0;
+    }
+
+    .item-card-name {
+        @apply text-base font-Red-Hat-SemiBold pl-4 sm:pl-0;
+    }
+
+    .item-card-price {
+        @apply text-base font-Red-Hat-SemiBold text-Red pl-4 sm:pl-0;
+    }
+
+    .add-to-cart-main {
+        @apply flex flex-row items-center gap-2
+        absolute bg-white rounded-full text-sm
+        font-Red-Hat-SemiBold py-2 px-5 border
+        border-Rose-400 transform translate-y-1/2
+        hover:border-Red
+        cursor-pointer;
+    }
+
+    .add-to-cart-toggle {
+        @apply bg-Red border-none text-white
+        justify-between px-3 w-3/7;
+    }
+
+    .add-to-cart-button {
+        @apply flex w-4 h-4 items-center justify-center
+        border border-white rounded-full hover:bg-white;
+    }
+
+    .add-to-cart-button-icon {
+        @apply text-white ;
+    }
+
+    .order-details {
+        @apply flex flex-col justify-start p-3 sm:p-4 gap-4 sm:rounded-sm
+        bg-white w-full sm:w-2/6 h-fit;
+    }
+
+    .order-details h2 {
+        @apply text-xl sm:text-2xl font-Red-Hat-Bold text-Red;
+    }
+
+    .order-totals {
+        @apply flex flex-row justify-between items-center;
+    }
+
+    .order-carbon-neutral {
+        @apply flex justify-center gap-2 items-center p-2
+        bg-Rose-50 rounded-md shadow-sm;
+    }
+
+    .order-confirm-button {
+        @apply flex items-center font-Red-Hat-SemiBold
+        justify-center p-2 bg-Red rounded-full text-white
+        cursor-pointer hover:bg-Rose-500;
+    }
+
+    .order-empty {
+        @apply flex flex-col items-center justify-center
+        gap-4 m-4 text-Rose-400 font-Red-Hat-SemiBold;
+    }
+
+    .confirm-model-container {
+        @apply fixed flex h-screen w-full top-0 bg-black/50
+        z-40 left-0 items-center justify-center font-Red-Hat-Regular;
+    }
+
+    .confirm-model-inner-div {
+        @apply flex flex-col rounded-md bg-white text-black
+        w-1/2 h-fit p-4 gap-3 ;
+    }
+
+    .confirm-model-header {
+        @apply text-3xl font-Red-Hat-Bold;
+    }
+
+    .confirmed-item-container {
+        @apply flex flex-col w-full bg-Rose-50 p-4 rounded-md;
+    }
+
+    .confirm-items {
+        @apply flex flex-col gap-2 max-h-60 overflow-y-auto pr-2;
+    }
+
+    .confirmed-item-total {
+        @apply flex flex-row justify-between items-center;
+    }
+
+    .start-new-button {
+        @apply flex w-full bg-Red p-2 rounded-full
+        items-center justify-center text-white hover:bg-Rose-500;
+    }
+
+    .item {
+        @apply flex flex-row justify-between font-Red-Hat-SemiBold
+        border-b border-Rose-100 mb-3 pb-3 gap-4;
+    }
+
+    .item-remove {
+        @aaply w-fit flex items-center justify-center;
+    }
+
+    .item-remove-icon {
+        @apply text-[#CAAFA7]
+        transition-colors duration-300 cursor-pointer;
+    }
+}
+

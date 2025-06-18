@@ -6,7 +6,7 @@ import useCommonStore from "../store/useCommonStore.ts";
 
 const ItemsLoader = () => {
     const [desserts, setDesserts] = useState<Dessert[]>([]);
-    const [loading, setLoading] = useState(true);
+    const {loading, setLoading} = useCommonStore();
     const {cartStatus, setCartStatus} = useCommonStore((state) => state);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const ItemsLoader = () => {
     console.log("cartStatus", cartStatus);
     const toggleCart = (id: number) => {
         const updatedCart = cartStatus.map((item) =>
-            item.id === String(id) && !item.toggled ? {...item, toggled: true} : item
+            item.id === String(id) && !item.toggled ? {...item, toggled: true, count: 1} : item
         );
         setCartStatus(updatedCart);
     };

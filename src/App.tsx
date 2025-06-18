@@ -6,11 +6,14 @@ import useCommonStore from "./store/useCommonStore.ts";
 
 function App() {
     const {modalOpen} = useCommonStore((state) => state)
+    const {loading} = useCommonStore((state) => state);
     return (
         <>
             <main>
                 <ItemsLoader/>
-                <CartDetails/>
+                {!loading &&
+                    <CartDetails/>
+                }
             </main>
             {modalOpen &&
                 <ConfirmModal/>

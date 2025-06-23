@@ -1,34 +1,34 @@
-import type {CartDetailsType} from "../types/types.ts";
-import useCommonStore from "../store/useCommonStore.ts";
+import type {CartItem as CartItemType} from '../types/dessert';
 
-const Item = ({count, unitPrice, name, toggle = false, image_url}: CartDetailsType) => {
-    const {cartStatus, setCartStatus} = useCommonStore();
+interface CartItemProps {
+    item: CartItemType;
+    onRemove: (dessertName: string) => void;
+    onModal?: boolean
+}
 
-    const handleRemoveItem = () => {
-        const updatedCart = cartStatus.map((item) =>
-            item.image_url === image_url ? {...item, count: 0} : item
-        );
-        setCartStatus(updatedCart);
-    }
+const CartItem: React.FC<CartItemProps> = ({item, onRemove, onModal = false}) => {
+    const {dessert, quantity} = item;
+    const subtotal = dessert.price * quantity;
+
     return (
         <div className={'item'}>
-            <div className={`flex gap-1 ${toggle ? 'flex-row gap-4' : 'flex-col'} justify-between `}>
-                {toggle &&
+            <div className={`flex gap-1 ${onModal ? 'flex-row gap-4' : 'flex-col'} justify-between `}>
+                {onModal &&
                     <div className={'flex justify-center items-center'}>
-                        <img src={image_url} className={'rounded-md w-16 h-16'} alt="thumbnail"/>
+                        <img src={dessert.image.thumbnail} className={'rounded-md w-16 h-16'} alt="thumbnail"/>
                     </div>
                 }
-                <div className={`${toggle && 'flex flex-col gap-4'}`}>
-                    <h3>{name}</h3>
+                <div className={`${onModal && 'flex flex-col gap-4'}`}>
+                    <h3>{dessert.name}</h3>
                     <div className={`flex flex-row gap-4`}>
-                        <span className={'text-Red'}>{count}x</span>
-                        <span className={'font-Red-Hat-Regular text-Rose-500'}>@{unitPrice.toFixed(2)}</span>
-                        {!toggle && <span className={'text-Rose-500'}>${(count * unitPrice).toFixed(2)}</span>}
+                        <span className={'text-Red'}>{quantity}x</span>
+                        <span className={'font-Red-Hat-Regular text-Rose-500'}>@{dessert.price.toFixed(2)}</span>
+                        {!onModal && <span className={'text-Rose-500'}>${subtotal.toFixed(2)}</span>}
                     </div>
                 </div>
             </div>
-            <div className="group item-remove" onClick={() => handleRemoveItem()}>
-                {!toggle ? (
+            <div className="group item-remove" onClick={() => onRemove(dessert.name)}>
+                {!onModal ? (
                         <svg
                             className={"item-remove-icon group-hover:text-black"}
                             xmlns="http://www.w3.org/2000/svg"
@@ -40,10 +40,10 @@ const Item = ({count, unitPrice, name, toggle = false, image_url}: CartDetailsTy
                                 fill="currentColor"
                                 d="M 12 2 C 6.4889971 2 2 6.4889971 2 12 C 2 17.511003 6.4889971 22 12 22 C 17.511003 22 22 17.511003 22 12 C 22 6.4889971 17.511003 2 12 2 z M 12 4 C 16.430123 4 20 7.5698774 20 12 C 20 16.430123 16.430123 20 12 20 C 7.5698774 20 4 16.430123 4 12 C 4 7.5698774 7.5698774 4 12 4 z M 8.7070312 7.2929688 L 7.2929688 8.7070312 L 10.585938 12 L 7.2929688 15.292969 L 8.7070312 16.707031 L 12 13.414062 L 15.292969 16.707031 L 16.707031 15.292969 L 13.414062 12 L 16.707031 8.7070312 L 15.292969 7.2929688 L 12 10.585938 L 8.7070312 7.2929688 z"/>
                         </svg>) :
-                    (<span className={'text-Rose-500'}>${(count * unitPrice).toFixed(2)}</span>)
+                    (<span className={'text-Rose-500'}>${subtotal.toFixed(2)}</span>)
                 }
             </div>
         </div>
     )
 }
-export default Item;
+export default CartItem;

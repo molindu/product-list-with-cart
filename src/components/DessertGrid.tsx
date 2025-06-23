@@ -1,8 +1,7 @@
-import {useEffect, useState} from 'react';
-// import Cart from '../assets/icons/icon-add-to-cart.svg'
-import type {Dessert} from "../types/dessert.ts";
-import {useCartStore} from "../store/useCartStore.ts";
-import DessertCard from "./DessertCard.tsx";
+import React, {useState, useEffect} from 'react';
+import {Loader2} from 'lucide-react';
+import DessertCard from './DessertCard';
+import type {Dessert} from '../types/dessert';
 
 interface DessertGridProps {
     onAddToCart: (dessert: Dessert) => void;
@@ -16,8 +15,7 @@ const DessertGrid: React.FC<DessertGridProps> = ({
                                                      getItemQuantity,
                                                  }) => {
     const [desserts, setDesserts] = useState<Dessert[]>([]);
-    const loading = useCartStore((state) => state.loading);
-    const setLoading = useCartStore((state) => state.setLoading);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -40,34 +38,37 @@ const DessertGrid: React.FC<DessertGridProps> = ({
         fetchDesserts();
     }, []);
 
-    if (loading) return <div className={'loading'}>
-        <div className="loading-container">
-            <div className="loading-spinner"></div>
-            <p className="loading-text">Loading...</p>
-        </div>
-    </div>;
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center py-12">
+                <div className="flex items-center gap-3 text-orange-600">
+                    <Loader2 className="animate-spin" size={24}/>
+                    <span className="font-medium">Loading delicious desserts...</span>
+                </div>
+            </div>
+        );
+    }
     if (error) {
         return (
             <div className="flex items-center justify-center py-12">
-                <div className="text-center text-red-600">
+                <div className="text-center text-Rose-500">
                     <p className="font-medium">{error}</p>
                 </div>
             </div>
         );
     }
+
     return (
-        <div className="item-loader-container">
-            <h1 className="item-loader-header">Desserts</h1>
-            <div className="item-container">
-                {desserts.map((dessert, index) => (
-                    <DessertCard
-                        key={dessert.id || `${dessert.name}-${index}`}
-                        dessert={dessert}
-                        quantity={getItemQuantity(dessert.name)}
-                        onAddToCart={onAddToCart}
-                        onUpdateQuantity={onUpdateQuantity}
-                    />))}
-            </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+            {desserts.map((dessert, index) => (
+                <DessertCard
+                    key={dessert.id || `${dessert.name}-${index}`}
+                    dessert={dessert}
+                    quantity={getItemQuantity(dessert.name)}
+                    onAddToCart={onAddToCart}
+                    onUpdateQuantity={onUpdateQuantity}
+                />
+            ))}
         </div>
     );
 };

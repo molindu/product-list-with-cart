@@ -1,15 +1,25 @@
-import useCommonStore from "../store/useCommonStore.ts";
-import Item from '../component/Item.tsx'
+import CartItem from '../component/CartItem.tsx'
+import type {CartState} from "../types/dessert.ts";
 
-const ConfirmModal = () => {
-    const {cartStatus, setCartStatus, setModalOpen} = useCommonStore();
-    const ResetItems = () => {
-        setModalOpen(false);
-        const updatedCart = cartStatus.map((item) =>
-            item.count > 0 ? {...item, count: 0} : item
-        );
-        setCartStatus(updatedCart);
-    }
+interface OrderConfirmationModalProps {
+    isOpen: boolean;
+    cartState: CartState;
+    onClose: () => void;
+    onStartNewOrder: () => void;
+}
+
+const OrderConfirmationModal: React.FC<OrderConfirmationModalProps> = ({
+                                                                           isOpen,
+                                                                           cartState,
+                                                                           onClose,
+                                                                           onStartNewOrder,
+                                                                       }) => {
+    if (!isOpen) return null;
+
+    const handleStartNewOrder = () => {
+        onStartNewOrder();
+        onClose();
+    };
     return (
         <div className={'confirm-model-container'}>
             <div className={'confirm-model-inner-div'}>
@@ -26,31 +36,22 @@ const ConfirmModal = () => {
                 </div>
                 <div className={'confirmed-item-container'}>
                     <div className={"confirmed-items"}>
-                        {cartStatus.map((item) =>
-                            item.count > 0 ? (
-                                    <Item
-                                        key={item.id}
-                                        count={item.count}
-                                        unitPrice={item.price}
-                                        name={item.name}
-                                        toggle={true}
-                                        image_url={item.image_url}
-                                    />
-                                )
-                                : null
-                        )}
+                        {cartState.items.map((item) => (
+                            <CartItem
+                                key={item.dessert.name}
+                                item={item}
+                                onModal={true}
+                            />
+                        ))}
                     </div>
                     <div className={'confirmed-item-total'}>
                         <span>Order Total</span>
-                        <span className={'font-Red-Hat-Bold text-lg'}>${cartStatus.reduce(
-                            (sum, item) => sum + item.count * item.price,
-                            0
-                        )}</span>
+                        <span className={'font-Red-Hat-Bold text-lg'}>${cartState.totalPrice.toFixed(2)}</span>
                     </div>
                 </div>
                 <div
                     className={'start-new-button'}
-                    onClick={ResetItems}
+                    onClick={handleStartNewOrder}
                 >
                     Start New Order
                 </div>
@@ -59,4 +60,4 @@ const ConfirmModal = () => {
     );
 };
 
-export default ConfirmModal;
+export default OrderConfirmationModal;

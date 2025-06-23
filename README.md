@@ -6,11 +6,11 @@
 
 ### Screenshot
 
-***Empty Item selected***
+***Empty CartItem selected***
 
 ![](./public/empty.png)
 
-***Item selected***
+***CartItem selected***
 
 ![](./public/selected.png)
 

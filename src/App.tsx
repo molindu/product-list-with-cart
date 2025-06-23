@@ -1,22 +1,60 @@
 import './App.css'
-import ItemsLoader from "./component/ItemsLoader.tsx";
-import CartDetails from "./component/CartDetails.tsx";
-import ConfirmModal from "./models/ConfirmModal.tsx";
-import useCommonStore from "./store/useCommonStore.ts";
+import DessertGrid from "./component/DessertGrid.tsx";
+import ShoppingCart from "./component/ShoppingCart.tsx";
+import {useCartStore} from "./store/useCartStore.ts";
+import {useState} from "react";
+import OrderConfirmationModal from "./models/OrderConfirmationModal.tsx";
 
 function App() {
-    const {modalOpen} = useCommonStore((state) => state)
-    const {loading} = useCommonStore((state) => state);
+    const [modalOpen, setModalOpen] = useState(false);
+    const loading = useCartStore((state) => state.loading);
+    const {
+        items,
+        totalItems,
+        totalPrice,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart,
+        getItemQuantity
+    } = useCartStore();
+
+    const cartState = {items, totalItems, totalPrice};
+
+    const handleConfirmOrder = () => {
+        if (items.length > 0) {
+            setModalOpen(true);
+        }
+    };
+
+    const handleStartNewOrder = () => {
+        clearCart();
+        setModalOpen(false);
+    };
+
     return (
         <>
             <main>
-                <ItemsLoader/>
+                <DessertGrid
+                    onAddToCart={addToCart}
+                    onUpdateQuantity={updateQuantity}
+                    getItemQuantity={getItemQuantity}
+                />
                 {!loading &&
-                    <CartDetails/>
+                    <ShoppingCart
+                        cartState={cartState}
+                        onRemoveFromCart={removeFromCart}
+                        onConfirmOrder={handleConfirmOrder}
+                    />
                 }
             </main>
             {modalOpen &&
-                <ConfirmModal/>
+                <OrderConfirmationModal
+                    isOpen={modalOpen}
+                    cartState={cartState}
+                    onClose={() => setModalOpen(false)}
+                    onStartNewOrder={handleStartNewOrder}
+                />
             }
         </>
     )

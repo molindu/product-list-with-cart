@@ -1,0 +1,66 @@
+Build a responsive React + Tailwind CSS + typescript web app for a dessert ordering interface.
+
+📦 Functionality Overview
+
+The app should have three primary sections:
+
+1.Dessert Catalog Grid
+2.Shopping Cart Panel
+3.Order Confirmation Modal
+
+Core Features:
+
+1.Dessert Grid Display:
+
+Display dessert items with name, price, and image.
+Each item should have an "Add to Cart" button and visual quantity counter when selected.
+
+2.Shopping Cart Panel (right sidebar):
+
+Shows selected items, quantity, unit price, and subtotal.
+Total price calculation.
+Remove item functionality.
+“Confirm Order” button with carbon-neutral message.
+
+3.Order Confirmation Modal:
+
+On order confirmation, show a modal with a checklist icon and order summary.
+Display itemized summary with names, quantities, and total.
+“Start New Order” button resets cart and returns to main screen.
+🔗 Data Source
+
+Fetch dessert data from this API:
+
+Endpoint: https://684ce0bf65ed087139147af0.mockapi.io/data
+
+Data Type:
+
+
+type Dessert = {
+  image: {
+    thumbnail: string;
+    mobile: string;
+    tablet: string;
+    desktop: string;
+  };
+  name: string;
+  category: string;
+  price: number;
+};
+
+**Styling**:
+- Use `Red Hat Text` font family.
+- Follow colors and layout from the provided `style-guide.md`.
+- Desktop width: 1440px, Mobile: 375px (must be responsive).
+- Use Tailwind CSS utilities for spacing, typography, and colors as defined in the style guide.
+
+**Behavior**:
+- Show active states (e.g. buttons, item counters) as seen in `active-states.jpg`.
+- Cart updates dynamically.
+- Modal appears only after "Confirm Order" is clicked and disappears when "Start New Order" is pressed.
+
+**Assets**:
+- Use the three uploaded images as layout/design references.
+- You may extract dessert names, prices, and images shown in the screenshots for sample data.
+
+Please generate production-ready, clean, and modular React components with Tailwind classes.
